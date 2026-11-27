@@ -37,14 +37,28 @@
 
         #spw {
             position: fixed;
-            right: 0;
-            bottom: 0;
+            top: 8px;
+            left: 8px;
             width: 300px;
+            max-width: calc(100% - 16px);
             height: 80px;
-            opacity: 0;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden
+            opacity: 1;
+            z-index: 60;
+            overflow: hidden;
+            border-radius: 12px
+        }
+
+        #splink {
+            position: fixed;
+            top: 92px;
+            left: 8px;
+            z-index: 60;
+            font-size: 12px;
+            color: #ffd6e8;
+            background: rgba(0,0,0,.55);
+            padding: 5px 10px;
+            border-radius: 10px;
+            text-decoration: none
         }
 
         #intro {
@@ -352,6 +366,7 @@
 
 <body>
     <canvas id="c"></canvas>
+    <a id="splink" href="https://open.spotify.com/playlist/1Rcvyu8TWHJGKAdXr7iZUz" target="_blank" rel="noopener">🎧 Abrir en Spotify</a>
     <div id="spw">
         <div id="sp"></div>
     </div>
