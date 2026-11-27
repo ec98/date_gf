@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌷</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Nani 🌷</title>
+    <script>window.CFG = {
+            "uri": "spotify:playlist:1Rcvyu8TWHJGKAdXr7iZUz",
+            "tracks": [],
+            "msgs": ["Naniii amor de mi vidaaa ❤️", "Amo cuando me miras a los ojos y me dices *te quiero amor* 💖 y", "No solo eso, sino también lo mucho que me lo demuestras e", "Igualmente cuando decimos cualquier estupides sigues con la continuación o viceversa.❤️", "TE AMO MI AMOR, MUCHO!"]
+        }</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            background: #000;
+            color: #ffd6e8;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            overflow: hidden
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%
+        }
+
+        #spw {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 300px;
+            height: 80px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden
+        }
+
+        #intro {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            overflow: auto;
+            padding: 24px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 35%, #2a0a1e, #000 70%);
+            transition: opacity 1.6s
+        }
+
+        .in {
+            margin: auto;
+            max-width: 560px
+        }
+
+        .in h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            color: #ff8fb8;
+            text-shadow: 0 0 24px #ff4d8d;
+            margin-bottom: 18px
+        }
+
+        .in p {
+            line-height: 1.7;
+            margin-bottom: 14px
+        }
+
+        .in small {
+            display: block;
+            margin-top: 12px;
+            opacity: .6
+        }
+
+        .btn {
+            margin-top: 10px;
+            padding: 14px 34px;
+            border: 0;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff4d79, #c9184a);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 28px rgba(255, 77, 141, .55);
+            transition: .3s
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(255, 77, 141, .9)
+        }
+
+        #ui {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2s 1s
+        }
+
+        #ui.on {
+            opacity: 1
+        }
+
+        #ui h2 {
+            position: absolute;
+            top: 4vh;
+            width: 100%;
+            text-align: center;
+            font-weight: 300;
+            letter-spacing: .12em;
+            color: #ffb3d1;
+            text-shadow: 0 0 18px #ff4d8d;
+            font-size: clamp(1.1rem, 3.4vw, 1.8rem)
+        }
+
+        #cap {
+            position: absolute;
+            bottom: 160px;
+            width: 100%;
+            padding: 0 16px;
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity .5s;
+            text-shadow: 0 0 12px #ff4d8d
+        }
+
+        #pl {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(92vw, 380px);
+            padding: 14px 18px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .07);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 180, 215, .25);
+            box-shadow: 0 0 30px rgba(255, 77, 141, .25);
+            text-align: center;
+            pointer-events: auto
+        }
+
+        #tt {
+            font-weight: 600
+        }
+
+        #ta {
+            font-size: .8rem;
+            opacity: .7;
+            min-height: 1em
+        }
+
+        #pr {
+            height: 3px;
+            background: rgba(255, 255, 255, .15);
+            border-radius: 3px;
+            margin: 10px 0
+        }
+
+        #bar {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #ff4d8d, #ffd6e8);
+            border-radius: 3px
+        }
+
+        #bt {
+            display: flex;
+            justify-content: center;
+            gap: 12px
+        }
+
+        #bt button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 180, 215, .4);
+            background: rgba(255, 77, 141, .15);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        #bt button:hover {
+            background: rgba(255, 77, 141, .45);
+            box-shadow: 0 0 16px #ff4d8d
+        }
+
+        #hd {
+            padding: 0 16px
+        }
+
+        #qz,
+        #fin {
+            position: absolute;
+            left: 50%;
+            top: 15vh;
+            transform: translateX(-50%);
+            width: min(92vw, 460px);
+            max-height: 66vh;
+            overflow: auto;
+            padding: 20px;
+            border-radius: 22px;
+            background: rgba(10, 0, 8, .5);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 180, 215, .3);
+            box-shadow: 0 0 30px rgba(255, 77, 141, .3);
+            text-align: center;
+            pointer-events: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .8s
+        }
+
+        #qz.on,
+        #fin.on {
+            opacity: 1;
+            visibility: visible
+        }
+
+        #qz.lk .op {
+            pointer-events: none
+        }
+
+        .qn {
+            font-size: .8rem;
+            opacity: .7;
+            margin-bottom: 6px
+        }
+
+        .qq {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 14px
+        }
+
+        .op {
+            display: block;
+            width: 100%;
+            margin: 8px 0;
+            padding: 11px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 180, 215, .35);
+            background: rgba(255, 77, 141, .12);
+            color: #fff;
+            font-size: .95rem;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .op:hover {
+            background: rgba(255, 77, 141, .4)
+        }
+
+        .op.ok {
+            background: rgba(60, 200, 120, .55);
+            border-color: #7dffb0
+        }
+
+        .op.no {
+            background: rgba(255, 60, 80, .5);
+            border-color: #ff8a9a
+        }
+
+        .fb {
+            min-height: 1.4em;
+            margin-top: 8px
+        }
+
+        .sc {
+            font-size: 2.2rem;
+            color: #ff8fb8;
+            text-shadow: 0 0 20px #ff4d8d
+        }
+
+        #qz img {
+            width: min(60vw, 220px);
+            border-radius: 14px;
+            margin: 10px auto;
+            display: block
+        }
+
+        .cat {
+            margin: 6px auto
+        }
+
+        .ct {
+            animation: bob 1.2s ease-in-out infinite;
+            transform-origin: center
+        }
+
+        .ey {
+            animation: bl 3s infinite;
+            transform-box: fill-box;
+            transform-origin: center
+        }
+
+        @keyframes bob {
+            50% {
+                transform: translateY(-5px) rotate(3deg)
+            }
+        }
+
+        @keyframes bl {
+
+            0%,
+            92%,
+            100% {
+                transform: scaleY(1)
+            }
+
+            96% {
+                transform: scaleY(.1)
+            }
+        }
+
+        .nl {
+            margin: 12px 0;
+            line-height: 1.5;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: .9s
+        }
+
+        .nl.on {
+            opacity: 1;
+            transform: none
+        }
+
+        .nl b {
+            font-size: 2.2rem;
+            color: #ff8fb8;
+            text-shadow: 0 0 18px #ff4d8d
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="c"></canvas>
+    <div id="spw">
+        <div id="sp"></div>
+    </div>
+    <div id="ui">
+        <h2 id="hd">Para mi novia Nani 🌷</h2>
+        <div id="cap"></div>
+        <div id="qz"></div>
+        <div id="fin"></div>
+        <div id="pl">
+            <div id="tt"></div>
+            <div id="ta"></div>
+            <div id="pr"><i id="bar"></i></div>
+            <div id="bt"><button id="pv">⏮</button><button id="pp">▶</button><button id="nx">⏭</button><button
+                    id="lv">💌</button></div>
+        </div>
+    </div>
+    <div id="intro">
+        <div class="in">
+            <h1>Para mi novia Nani 🌷</h1>
+            <p>Hola, mi amor. ❤️</p>
+            <p>Hice esta pequeña página web, incluye nuestra playlist y tulipanes.</p>
+            <p>Un detallito web que me nació hacerte esto jsjs</p>
+            <p>Te amo mil galaxias</p>
+            <button class="btn" id="go">Ingresa a nuestro universo -> 🌷</button>
+        </div>
+    </div>
+    <script>
+        const C = window.CFG, TR = C.tracks, MS = C.msgs, R = Math.random, PI = Math.PI, sin = Math.sin, cos = Math.cos, $ = i => document.getElementById(i);
+        const cv = $('c'), g = cv.getContext('2d');
+        let W, H, mx = 0, my = 0, tx = 0, ty = 0, t = 0, t0 = -1, last = 0, sh = null, ctl = null, want = false, idx = 0, lock = 0, lastP = 0, k = 0;
+        function rs() { const d = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * d; cv.height = H * d; g.setTransform(d, 0, 0, d, 0, 0) }
+        addEventListener('resize', rs); rs();
+        addEventListener('pointermove', e => { tx = e.clientX / W - .5; ty = e.clientY / H - .5 });
+        const col = (h, l, a = 1) => `hsla(${h},88%,${l}%,${a})`;
+        const ease = x => 1 - Math.pow(1 - Math.min(Math.max(x, 0), 1), 3);
+
+        function glow(x, y, r, c) { const q = g.createRadialGradient(x, y, 0, x, y, r); q.addColorStop(0, c); q.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = q; g.fillRect(x - r, y - r, r * 2, r * 2) }
+
+        // Destello: dos rayos cruzados + núcleo brillante
+        function flare(x, y, len, a, rot) {
+            g.save(); g.translate(x, y); g.rotate(rot); g.globalCompositeOperation = 'lighter';
+            for (let i = 0; i < 2; i++) {
+                const q = g.createLinearGradient(-len, 0, len, 0);
+                q.addColorStop(0, 'rgba(255,170,220,0)'); q.addColorStop(.5, `rgba(255,235,250,${a})`); q.addColorStop(1, 'rgba(255,170,220,0)');
+                g.fillStyle = q; g.fillRect(-len, -1, len * 2, 2); g.rotate(PI / 2)
+            }
+            glow(0, 0, len * .25, `rgba(255,240,250,${a})`); g.restore()
+        }
+
+        // Pétalo paramétrico: u∈[0,1], ancho w(u)=W·sin(π·u^0.85)·(1-0.2u), eje curvado c(u)=bend·u²
+        function petal(L, Wd, bend, c1, c2) {
+            const a = [], b = [];
+            for (let i = 0; i <= 24; i++) { const u = i / 24, w = Wd * sin(PI * Math.pow(u, .85)) * (1 - .2 * u), c = bend * u * u; a.push([c - w, -L * u]); b.push([c + w, -L * u]) }
+            const q = g.createLinearGradient(0, 0, 0, -L); q.addColorStop(0, c1); q.addColorStop(1, c2);
+            g.beginPath(); a.concat(b.reverse()).forEach((p, i) => i ? g.lineTo(p[0], p[1]) : g.moveTo(p[0], p[1]));
+            g.closePath(); g.fillStyle = q; g.fill(); g.strokeStyle = 'rgba(255,255,255,.22)'; g.lineWidth = 1; g.stroke()
+        }
+
+        // Tulipán: 2 pétalos traseros, 2 laterales y 1 frontal; "open" (0-1) abre el capullo
+        function tulip(s, open, h) {
+            [[-.3, -1, .9, 30], [.3, 1, .9, 30], [-.55, -1, 1, 42], [.55, 1, 1, 42], [0, 0, 1.04, 54]].forEach(([a, b, m, l]) => {
+                g.save(); g.rotate(a * open * .9);
+                petal(s * m, s * (a ? .3 : .36), b * s * .12 * open, col(h, l - 12), col(h + 12, l + 26));
+                g.restore()
+            })
+        }
+
+        const CR = [[-.3, -.2, .22], [.25, .1, .3], [-.1, .4, .16], [.35, -.35, .12], [-.4, .25, .1]];
+        function moon(x, y, r) {
+            g.globalCompositeOperation = 'lighter'; glow(x, y, r * 6, 'rgba(255,150,205,.2)'); glow(x, y, r * 2.4, 'rgba(255,220,240,.25)');
+            g.globalCompositeOperation = 'source-over';
+            const q = g.createRadialGradient(x - r * .35, y - r * .35, r * .1, x, y, r); q.addColorStop(0, '#fffaf5'); q.addColorStop(.7, '#e5cfe0'); q.addColorStop(1, '#a58bb0');
+            g.save(); g.beginPath(); g.arc(x, y, r, 0, 7); g.fillStyle = q; g.fill(); g.clip();
+            CR.forEach(c => { g.beginPath(); g.arc(x + c[0] * r, y + c[1] * r, c[2] * r, 0, 7); g.fillStyle = 'rgba(120,90,130,.22)'; g.fill() });
+            g.restore()
+        }
+
+        const ST = Array.from({ length: 230 }, () => ({ x: R(), y: R(), r: R() * 1.3 + .3, p: R() * 7, s: .6 + R() * 2, d: R() }));
+        const HS = [330, 345, 300, 10, 280, 350, 320];
+        const FL = Array.from({ length: 18 }, (_, i) => ({ x: R(), y: R(), z: .3 + R() * .7, h: HS[i % 7], p: R() * 7, vx: (R() - .5) * .006, vy: -(.002 + R() * .006) }));
+        const SP = Array.from({ length: 46 }, () => ({ a: R() * 7, r: .5 + R() * 1.3, v: (R() - .5) * .9, p: R() * 7, z: R() }));
+
+        // Tulipán principal: b = floración 0→1
+        function main(b) {
+            const s = Math.min(H * .2, W * .32) * (.15 + .85 * b), L = H * .4 * (.3 + .7 * b), bx = W / 2 - mx * 20, by = H + 8, sw = sin(t * .7) * s * .12;
+            const X = u => sw * u * u + sin(t * .9 + u * 3) * s * .03 * u;
+            g.save(); g.translate(bx, by);
+            [-1, 1].forEach(q => { g.save(); g.translate(X(.08), -L * .08); g.rotate(q * (.5 + .06 * sin(t + q))); petal(L * .55, s * .22, q * s * .35, col(150, 16), col(140, 42)); g.restore() });
+            g.strokeStyle = '#2c9c5f'; g.lineWidth = Math.max(3, s * .07); g.lineCap = 'round'; g.shadowColor = '#3dff95'; g.shadowBlur = 14; g.beginPath();
+            for (let i = 0; i <= 24; i++) { const u = i / 24; i ? g.lineTo(X(u), -L * u) : g.moveTo(0, 0) }
+            g.stroke(); g.shadowBlur = 0;
+            const hx = X(1), hy = -L; g.translate(hx, hy); g.rotate(sw * .004);
+            g.globalCompositeOperation = 'lighter'; glow(0, -s * .6, s * 3, col(335, 60, .3 * b)); g.globalCompositeOperation = 'source-over';
+            tulip(s, b * (.85 + .1 * sin(t * 1.2)), 335); g.restore();
+            return { x: bx + hx, y: by + hy - s * .6, s }
+        }
+
+        function sparks(c, b) {
+            g.globalCompositeOperation = 'lighter';
+            SP.forEach(p => { const a = p.a + t * p.v, r = c.s * p.r * 1.5; glow(c.x + cos(a) * r, c.y + sin(a * 1.3) * r * .7, 3 + p.z * 6, `rgba(255,205,230,${b * (.15 + .85 * Math.abs(sin(t * 2 + p.p)))})`) });
+            g.globalCompositeOperation = 'source-over'
+        }
+
+        function loop(ms) {
+            const dt = Math.min((ms - last) / 1000 || 0, .05); last = ms; t += dt; mx += (tx - mx) * .05; my += (ty - my) * .05;
+            g.globalCompositeOperation = 'source-over'; g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+            const M = Math.max(W, H); g.globalCompositeOperation = 'lighter';
+            glow(W * .2, H * .3, M * .45, 'rgba(120,30,110,.16)'); glow(W * .75, H * .75, M * .5, 'rgba(60,20,120,.14)');
+            g.globalCompositeOperation = 'source-over';
+            ST.forEach(s => { g.globalAlpha = .3 + .7 * Math.abs(sin(t * s.s + s.p)); g.fillStyle = s.r > 1.2 ? '#ffd9ec' : '#fff'; g.fillRect(s.x * W - mx * s.d * 30, s.y * H - my * s.d * 30, s.r, s.r) });
+            g.globalAlpha = 1;
+            const r = Math.min(W, H) * .1, mxp = W * .8 - mx * 15, myp = H * .2 - my * 15, mf = Math.pow(Math.max(0, sin(t * .8 + 2)), 12);
+            moon(mxp, myp, r); flare(mxp, myp, r * (2.4 + .5 * sin(t * 1.5) + 2.5 * mf), .5 + .5 * mf, PI / 4 + t * .05);
+            FL.forEach(f => {
+                f.x += f.vx * dt; f.y += f.vy * dt; if (f.y < -.15) f.y = 1.15; if (f.x < -.1) f.x = 1.1; if (f.x > 1.1) f.x = -.1;
+                const s = Math.min(W, H) * .075 * f.z;
+                g.save(); g.translate(f.x * W - mx * f.z * 60, f.y * H - my * f.z * 60); g.rotate(sin(t * .4 + f.p) * .5); g.globalAlpha = .35 + .65 * f.z;
+                g.globalCompositeOperation = 'lighter'; glow(0, -s * .6, s * 2.2, col(f.h, 55, .22)); g.globalCompositeOperation = 'source-over';
+                g.strokeStyle = '#2fa866'; g.lineWidth = Math.max(1, s * .06); g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(s * .3, s * .6, 0, s * 1.2); g.stroke();
+                tulip(s, .8 + .15 * sin(t + f.p), f.h); g.restore()
+            });
+            const b = t0 < 0 ? 0 : ease((t - t0) / 5), c = main(b), fb = Math.pow(Math.max(0, sin(t * 1.1)), 10);
+            sparks(c, b); if (b > .3) flare(c.x, c.y, c.s * (.9 + .15 * sin(t * 2) + 2.2 * fb), (.55 + .45 * fb) * b, t * .15);
+            if (!sh && R() < .004) sh = { x: R() * W, y: R() * H * .5, l: 0 };
+            if (sh) { sh.x -= 520 * dt; sh.y += 260 * dt; sh.l += dt; g.strokeStyle = `rgba(255,230,245,${Math.max(0, 1 - sh.l / 1.2)})`; g.lineWidth = 1.5; g.beginPath(); g.moveTo(sh.x, sh.y); g.lineTo(sh.x + 130, sh.y - 65); g.stroke(); if (sh.l > 1.2) sh = null }
+            requestAnimationFrame(loop)
+        }
+        requestAnimationFrame(loop);
+
+        // ---- Spotify (iframe oculto + controles propios) ----
+        function info() { const x = TR[idx]; $('tt').textContent = x ? x.title : 'Nuestra playlist 💖'; $('ta').textContent = x ? x.artist : '' }
+        function load(i) { idx = (i + TR.length) % TR.length; lock = Date.now() + 3000; ctl.loadUri(TR[idx].uri); setTimeout(() => ctl.play(), 500); info() }
+        window.onSpotifyIframeApiReady = api => api.createController($('sp'), { uri: TR.length ? TR[0].uri : C.uri, width: 300, height: 80 }, c => {
+            ctl = c;
+            c.addListener('ready', () => { if (want) c.play() });
+            c.addListener('playback_update', e => {
+                const d = e.data;
+                $('pp').textContent = d.isPaused ? '▶' : '⏸';
+                $('bar').style.width = (d.duration ? d.position / d.duration * 100 : 0) + '%';
+                if (TR.length && Date.now() > lock && d.duration && (d.position >= d.duration - 600 || (d.isPaused && d.position === 0 && lastP > d.duration * .9))) load(idx + 1);
+                lastP = d.position
+            })
+        });
+        $('pp').onclick = () => ctl && ctl.togglePlay();
+        $('nx').onclick = () => ctl && load(idx + 1);
+        $('pv').onclick = () => ctl && load(idx - 1);
+        $('lv').onclick = () => { const e = $('cap'); e.style.opacity = 0; setTimeout(() => { e.textContent = MS[k++ % MS.length]; e.style.opacity = 1 }, 300) };
+        $('go').onclick = () => { want = true; if (ctl) ctl.play(); t0 = t; $('intro').style.opacity = 0; $('intro').style.pointerEvents = 'none'; $('ui').classList.add('on'); setTimeout(() => $('intro').remove(), 1800) };
+        $('nx').onclick = () => { if (!ctl) return; if (TR.length) load(idx + 1); else ctl.seek(9999) };
+        if (typeof info === 'function') info();
+
+        // ---- Juego de preguntas ----
+        const QS = [
+            { q: '¿Cuál es mi vino favorito? 🍷', a: 'Vino de mortiño', w: ['El de caja con Coca-Cola', 'Vino de agua de la llave', 'El que esté en oferta', 'Vino de limón con sal'] },
+            { q: '¿Qué día nos hicimos novios? 💍', a: '6 de noviembre 2026', w: ['30 de febrero 2026', '1 de abril (¡inocente palomita! XD)', 'El día que dijiste "ya veremos" lol', 'Un martes 13 con suerte jeje'] },
+            { q: '¿Cómo se llama mi gatita? 🐱', a: 'Mimi', w: ['Michi Jackson', 'Doña Croquetas', 'Garfielda', 'Señora Bigotes'] },
+            { q: '¿El último lugar al que fuimos? 📍', a: 'La basílica', w: ['A la Luna, en cohete', 'A Narnia por el clóset', 'Al McDonald\'s solo a mirar', 'A pagar la luz'] },
+            { q: '¿Cuál es mi mayor miedo? 😱', a: 'Las alturas (vértigo)', w: ['Que se acaben las papitas', 'Los payasos', 'Que me dejes en visto', 'Las arañas gigantes'] }
+        ];
+        // Opcional: pega enlaces .gif de gatitos [5 aciertos, 4 aciertos, menos]. Vacío = gatito animado dibujado.
+        const GIFS = ['', '', ''];
+        const T = ['jsjs te amo!'];
+        const CAT = `<svg viewBox="0 0 120 100" width="150"><g class="ct"><path d="M20 40L28 8L52 28ZM100 40L92 8L68 28Z" fill="#f2b98f"/><path d="M28 30L31 16L42 26ZM92 30L89 16L78 26Z" fill="#ff9db8"/><ellipse cx="60" cy="58" rx="42" ry="36" fill="#f2b98f"/><ellipse class="ey" cx="44" cy="54" rx="5" ry="7" fill="#2a0a1e"/><ellipse class="ey" cx="76" cy="54" rx="5" ry="7" fill="#2a0a1e"/><path d="M56 66L64 66L60 71Z" fill="#ff6f9a"/><path d="M60 71Q54 79 48 74M60 71Q66 79 72 74" stroke="#2a0a1e" stroke-width="2" fill="none"/><path d="M14 62H36M14 70L36 66M106 62H84M106 70L84 66" stroke="#fff" stroke-width="1.5"/></g></svg>`;
+        let qi = 0, pts = 0;
+        const mix = a => a.map(v => [R(), v]).sort((x, y) => x[0] - y[0]).map(v => v[1]);
+
+        function ask() {
+            const Q = QS[qi], o = mix([Q.a, ...mix(Q.w).slice(0, 3)]), z = $('qz');
+            z.className = 'on';
+            z.innerHTML = `<div class="qn">Pregunta ${qi + 1} de ${QS.length}</div><div class="qq">${Q.q}</div>` + o.map(x => `<button class="op">${x}</button>`).join('') + '<div class="fb"></div>';
+            z.querySelectorAll('.op').forEach(b => b.onclick = () => {
+                z.classList.add('lk'); const ok = b.textContent === Q.a;
+                if (ok) pts++; b.classList.add(ok ? 'ok' : 'no');
+                z.querySelectorAll('.op').forEach(x => { if (x.textContent === Q.a) x.classList.add('ok') });
+                z.querySelector('.fb').textContent = ok ? 'esa e mija 💖' : 'chuta jaja, era ' + Q.a;
+                setTimeout(() => { qi++; qi < QS.length ? ask() : result() }, 1900)
+            })
+        }
+
+        function result() {
+            const z = $('qz'), r = pts >= 5 ? 0 : pts >= 4 ? 1 : 2, u = GIFS[r];
+            z.className = 'on';
+            z.innerHTML = `<div class="qn">Muah!</div><div class="sc">⭐</div><div class="qq">${T[r]}</div>${u ? `<img src="${u}" alt="gatito">` : `<div class="cat">${CAT}</div>`}<button class="btn" id="nx2">Ver mi sorpresa 🌷</button>`;
+            const im = z.querySelector('img'); if (im) im.onerror = () => { im.outerHTML = `<div class="cat">${CAT}</div>` };
+            $('nx2').onclick = end
+        }
+
+        // Final: acróstico N-A-N-I con los mensajes + lluvia de tulipanes
+        function end() {
+            $('qz').className = ''; $('hd').textContent = 'Para mi novia Nani 🌷';
+            const f = $('fin');
+            f.innerHTML = MS.slice(0, 4).map(m => `<div class="nl"><b>${m[0]}</b>${m.slice(1)} 🌷</div>`).join('') + `<div class="nl">${MS[4] || ''} 💖</div>`;
+            f.className = 'on';
+            f.querySelectorAll('.nl').forEach((e, i) => setTimeout(() => e.classList.add('on'), 600 + i * 1600));
+            for (let i = 0; i < 16; i++) FL.push({ x: R(), y: 1.1 + R() * .4, z: .5 + R() * .5, h: HS[i % 7], p: R() * 7, vx: (R() - .5) * .006, vy: -(.01 + R() * .02) })
+        }
+        $('go').addEventListener('click', () => { $('hd').textContent = 'Si aciertas las preguntas, te invito a las chubs con papitas 🍟'; setTimeout(ask, 5000) });
+    </script>
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+</body>
+
+</html>
